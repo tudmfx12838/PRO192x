@@ -14,7 +14,7 @@ public class LuckyNumber {
     *# Description: LuckyNumer is a game which player must guess a random number
     *# How to implement:
     *# 1. Require player for inputing player's name
-    *# 2. Require player for inputing level range (from min to max, ex: 1 ~ 100)
+    *# 2. Set level range to guess from 0 to 100
     *# 3. Create a random number as "lucky number" between level of range
     *# 4. Require player guess "lucky number" and count each guessing
     *# 5. if player guess "lucky number" out, ask player for continues or not
@@ -27,6 +27,7 @@ public class LuckyNumber {
         *# randomDouble is random number that to be got from random() method
         *# guessNum is gusse number that is inputed by player
         *# isContinues is set true from start game, it is false if player don't want to countinue
+        *# isGuessValid is flag that will be set true if player input value between min and max level's range, whatelse will be set false
         *# totalOfGames count the number of game
         *# totalOfGuess count the number of player's guess
         *# guessOfAvg is average of player's guess
@@ -38,7 +39,7 @@ public class LuckyNumber {
         int numOfMax = 0;
         double randomDouble = 0.0;
         int guessNum = 0, count = 0;
-        boolean isContinues = true;
+        boolean isContinues = true, isGuessValid = false;
         int totalOfGames = 0, totalOfGuess = 0, guessOfAvg = 0, bestGame = Integer.MAX_VALUE;
         String report = "";
         String name = "";
@@ -52,30 +53,50 @@ public class LuckyNumber {
             totalOfGames++;
             count = 0;
 
-            System.out.print("Nhap do kho(muon doan tu 0 den 10 thi nhap '0 10'): ");
-            numOfMin = input.nextInt();
-            numOfMax = input.nextInt();
+            /* Just for testing, please ignore this comment
+            *# Require player for inputing level range (from min to max, ex: 1 ~ 100)
+            *# System.out.print("Nhap do kho(muon doan tu 0 den 10 thi nhap '0 10'): ");
+            *# numOfMin = input.nextInt();
+            *# numOfMax = input.nextInt();
+            */
+
+            numOfMin = 0;
+            numOfMax = 100;
 
             //(Math.random())*((max-min)+1)) + min;
             randomDouble = (Math.random())*((numOfMax-numOfMin)+1) + numOfMin;
             int luckyNumber = (int)randomDouble;
-            System.out.println("luckyNumber is " + luckyNumber);
+
+            /* Just for testing, please ignore this comment
+            *# System.out.println("luckyNumber is " + luckyNumber);
+            */
+            //System.out.println("luckyNumber is " + luckyNumber);
     
             System.out.println("Toi dang nghi mot so trong khoang tu " + numOfMin + " den " + numOfMax + "...");
 
             /*
             *# If player's number of guess is greater than lucky number, imform that "So may man lon hon so du doan cua ban"
             *# If player's number of guess is less than lucky number, imform that "So may man nho hon so du doan cua ban"
-            *# If player's number of guess is lucky number, imform time of guess
+            *# If player's number of guess is lucky number, imform number of guesses
             */
             do{
-                System.out.print("Ban doan? ");
-                guessNum = input.nextInt();
+                /*Ensure that player input value between min and max level's range */
+                do{
+                    System.out.print("Ban doan? ");
+                    guessNum = input.nextInt();
+                    if(guessNum >= numOfMin && guessNum <= numOfMax){
+                        isGuessValid = true;
+                    }else{
+                        isGuessValid = false;
+                        System.out.println("Ban hay doan so trong khoang tu " + numOfMin + " den " + numOfMax);
+                    }
+                }while(isGuessValid != true);
+
                 count++;
                 if (guessNum > luckyNumber){
-                    System.out.println("So may man lon hon so du doan cua ban");
-                } else if (guessNum < luckyNumber) {
                     System.out.println("So may man nho hon so du doan cua ban");
+                } else if (guessNum < luckyNumber) {
+                    System.out.println("So may man lon hon so du doan cua ban");
                 } else {
                     System.out.println("Chuc mung ban da doan dung con so sau " + count + " lan du doan!");
                 }
