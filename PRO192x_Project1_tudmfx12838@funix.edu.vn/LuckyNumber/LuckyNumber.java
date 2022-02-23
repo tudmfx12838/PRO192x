@@ -14,7 +14,7 @@ public class LuckyNumber {
     *# Description: LuckyNumer is a game which player must guess a random number
     *# How to implement:
     *# 1. Require player for inputing player's name
-    *# 2. Set level range to guess from 0 to 100
+    *# 2. Require player for inputing level range (from 0 to max, ex:  0 ~ 100)
     *# 3. Create a random number as "lucky number" between level of range
     *# 4. Require player guess "lucky number" and count each guessing
     *# 5. if player guess "lucky number" out, ask player for continues or not
@@ -59,9 +59,9 @@ public class LuckyNumber {
             *# numOfMin = input.nextInt();
             *# numOfMax = input.nextInt();
             */
-
+            System.out.print("Nhap do kho bat dau tu 0(doan tu 0 den 100 thi nhap '100'): ");
             numOfMin = 0;
-            numOfMax = 100;
+            numOfMax = input.nextInt();
 
             //(Math.random())*((max-min)+1)) + min;
             randomDouble = (Math.random())*((numOfMax-numOfMin)+1) + numOfMin;
