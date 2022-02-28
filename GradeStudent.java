@@ -211,9 +211,9 @@ public class GradeStudent {
         /**
          * Value of grade is depend on Percent of Overrall if:
          * greater than or equal to 85%, grade is 3.0
-         * greater than or equal to 75%, grade is 2.0
-         * greater than or equal to 60%, grade is 1.0
-         * less than 60%, grade is 1.0
+         * greater than or equal to 75% and less than 85%, grade is 2.0
+         * greater than or equal to 60% and less than 75%, grade is 1.0
+         * less than 60%, grade is 0.0
          */
         if (overRallPercent >= 85) {
             grade = 3.0;
