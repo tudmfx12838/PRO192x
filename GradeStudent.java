@@ -1,24 +1,37 @@
 import java.util.Scanner;
-import java.text.DecimalFormat;
+// import java.text.DecimalFormat;
 
 public class GradeStudent {
     public static void main(String[] args){
-        
         Scanner input = new Scanner(System.in);
+        int totalWeight[] = new int[1];
+        totalWeight[0] = 100;
+
         begin();
-        double midScore = termScore(input,"mid");
-        double finalScore = termScore(input,"final");
-        double homeworkScore = homework(input);
+        double midScore = midTerm(input, totalWeight);
+        double finalScore = finalTerm(input, totalWeight);
+        double homeworkScore = homework(input, totalWeight);
         report(midScore, finalScore, homeworkScore);
         
     }
-
+    /**
+     * The method begin() show  
+     * @param 
+     * @param 
+     * @return  
+     */
     public static void begin(){
         System.out.println("This program reads exam/homework scores and reports your overall course grade");
     }
 
-    public static double termScore(Scanner input, String termCode){
-        DecimalFormat df = new DecimalFormat("#.#");
+    /**
+     * The method begin() show  
+     * @param input 
+     * @param totalWeight
+     * @return weighted score
+     */
+    public static double midTerm(Scanner input, int totalWeight[]){
+        // DecimalFormat df = new DecimalFormat("#.#");
         int weight = 0;
         int ScoreEarned = 0;
         int shiftedScore = 0;
@@ -26,15 +39,15 @@ public class GradeStudent {
         int totalPoint = 0;
         double weightedScore = 0;
 
-        if(termCode.equals("mid")){
-            System.out.println("Midterm:"); 
-        }else if(termCode.equals("final")){
-            System.out.println("Final:");
-        }
+        System.out.println("Midterm:"); 
         
-        System.out.print("Weight (0-100): ");
-        weight = input.nextInt();
+        do{
+            System.out.print("Weight (0-100)? ");
+            weight = input.nextInt();
+        }while(weight < 0 || weight > 100);
         
+        totalWeight[0] -= weight;
+
         System.out.print("Score earned? ");
         ScoreEarned = input.nextInt();
 
@@ -50,14 +63,55 @@ public class GradeStudent {
         System.out.println("Total points = " + totalPoint + " / 100");
 
         weightedScore = (double)(totalPoint*weight)/100;
-        System.out.println("Weighted score = " + df.format(weightedScore) + " / " + weight);
+        weightedScore = (double)Math.round(weightedScore*10)/10;
+        System.out.println("Weighted score = " + weightedScore + " / " + weight);
         System.out.println();
 
         return weightedScore;
     }
 
-    public static double homework(Scanner input){
-        DecimalFormat df = new DecimalFormat("#.#");
+    public static double finalTerm(Scanner input, int totalWeight[]){
+        // DecimalFormat df = new DecimalFormat("#.#");
+        int weight = 0;
+        int ScoreEarned = 0;
+        int shiftedScore = 0;
+        int shiftAmount = 0;
+        int totalPoint = 0;
+        double weightedScore = 0;
+
+        System.out.println("Final:");
+        
+        do{
+            System.out.print("Weight (0-"+ totalWeight[0] +")? ");
+            weight = input.nextInt();
+        }while(weight < 0 || weight > totalWeight[0]);
+        
+        totalWeight[0] -= weight;
+
+        System.out.print("Score earned? ");
+        ScoreEarned = input.nextInt();
+
+        System.out.print("Were scores shifted (1 = yes, 2=no)? ");
+        shiftedScore = input.nextInt();
+        if(shiftedScore == 1){
+            System.out.print("Shift ammount? ");
+            shiftAmount = input.nextInt();
+        }
+
+        totalPoint = ScoreEarned + shiftAmount;
+        if(totalPoint > 100) totalPoint = 100;
+        System.out.println("Total points = " + totalPoint + " / 100");
+
+        weightedScore = (double)(totalPoint*weight)/100;
+        weightedScore = (double)Math.round(weightedScore*10)/10;
+        System.out.println("Weighted score = " + weightedScore + " / " + weight);
+        System.out.println();
+
+        return weightedScore;
+    }
+
+    public static double homework(Scanner input, int totalWeight[]){
+        // DecimalFormat df = new DecimalFormat("#.#");
         int weight = 0;
         int numOfAsm = 0;
         int numOfattend = 0;
@@ -71,8 +125,12 @@ public class GradeStudent {
 
         System.out.println("Homework:"); 
 
-        System.out.print("Weight (0-100): ");
-        weight = input.nextInt();
+        // System.out.print("Weight (0-100): ");
+        // weight = input.nextInt();
+        do{
+            System.out.print("Weight ("+ totalWeight[0] +")? ");
+            weight = input.nextInt();
+        }while(weight != totalWeight[0]);
         
         System.out.print("Number of assignments? ");
         numOfAsm = input.nextInt();
@@ -94,18 +152,18 @@ public class GradeStudent {
         totalPointMax = totalasmPointMax + 30; //30 is section's point of Max
 
         totalPoint = totalasmPoint + sectionPoint;
-        if(totalPoint > 100) totalPoint = 100;
+        if(totalPoint > totalPointMax) totalPoint = totalPointMax;
         System.out.println("Total points = " + totalPoint + " / " + totalPointMax);
 
         weightedScore = (double)(totalPoint*weight)/totalPointMax;
-        System.out.println("Weighted score = " + df.format(weightedScore) + " / 20");
+        weightedScore = (double)Math.round(weightedScore*10)/10;
+        System.out.println("Weighted score = " + weightedScore + " / " + weight);
         System.out.println();
 
         return weightedScore;
     }
 
     public static void report(double midScore, double finalScore, double homeworkScore){
-        DecimalFormat df = new DecimalFormat("#.#");
         double overRallPercent = midScore + finalScore + homeworkScore;
         double grade = 0.0;
 
@@ -119,7 +177,7 @@ public class GradeStudent {
             grade = 0.0;
         }
         
-        System.out.println("Overall percentage = " + df.format(overRallPercent));
+        System.out.println("Overall percentage = " + overRallPercent);
         System.out.println("Your grade will be at least: " + grade);
     }
 }
