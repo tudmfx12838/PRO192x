@@ -10,6 +10,7 @@ package com.mycompany.humanresources;
  */
 public class Manager extends Staff implements ICalculator{
     private String positionManager;
+    private double salary;
     
     public Manager(String staffId, String name, int age,
         double salaryScale, String startDate, String department,
@@ -23,6 +24,7 @@ public class Manager extends Staff implements ICalculator{
         this.annualLeave = annualLeave;
         this.position = "manager";
         this.positionManager = positionManager;
+        this.salary = calculateSalary();
     }
 
     public String getPositionManager(){
@@ -45,7 +47,12 @@ public class Manager extends Staff implements ICalculator{
         }else{
             bonus = 0;
         }
+
         return salaryScale*MANAGER_SALARY + bonus;
+    }
+
+    public double getSalary() {
+        return salary;
     }
     
     @Override

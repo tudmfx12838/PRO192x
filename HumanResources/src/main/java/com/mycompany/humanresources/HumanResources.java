@@ -129,6 +129,8 @@ public class HumanResources {
 
         }else if(choseFeature == 6){
 
+            showStaffSalaryList(input, staffs);
+
         }else if(choseFeature == 7){
 
         }else if(choseFeature == 8){
@@ -413,6 +415,113 @@ public class HumanResources {
             }while(backMenu < 0 || backMenu > 1);
             
         }while(runShow);
+    }
+
+    public static void showStaffSalaryList(Scanner input, ArrayList<Staff> staffs){
+        Employee employee;
+        Manager manager;
+        boolean runShow = true;
+        byte backMenu = 0;
+
+        do{
+
+            System.out.println("==================================================================================================");
+            System.out.println("|  Ma NV  |           Ten NV           |    Phong ban    |    Chuc vu    |         Luong         |");
+            System.out.println("==================================================================================================");
+
+            for(int i = 0; i < staffs.size(); i++){
+                
+                if(staffs.get(i).position.equals("manager")){
+                    manager = (Manager)staffs.get(i);
+                        
+                    System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
+                    System.out.print(fillSpace(1) + manager.getName() + fillSpace(28 - 1 - manager.getName().length()) + "|");
+                    System.out.print(fillSpace(1) + manager.getDepartment() + fillSpace(17 -1 - manager.getDepartment().length()) + "|");
+                    System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
+                    System.out.print(fillSpace(1) + (int)manager.getSalary() + fillSpace(16 - Integer.toString((int)manager.getSalary()).length()) + "vnd   |\n"); 
+
+                }else{
+                    employee = (Employee)staffs.get(i);
+                        
+                    System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
+                    System.out.print(fillSpace(1) + employee.getName() + fillSpace(28 - 1 - employee.getName().length()) + "|");
+                    System.out.print(fillSpace(1) + employee.getDepartment() + fillSpace(17 -1 - employee.getDepartment().length()) + "|");
+                    System.out.print(fillSpace(1) + employee.getPosition() + fillSpace(15 - 1 - employee.getPosition().length()) + "|");
+                    System.out.print(fillSpace(1) + (int)employee.getSalary() + fillSpace(16 - Integer.toString((int)employee.getSalary()).length()) + "vnd   |\n"); 
+                }
+            }
+
+            System.out.println("==================================================================================================");
+        
+            do{
+                System.out.print("Nhap: Tiep tuc xem = 1, Quay ve Menu chinh = 0? ");
+                backMenu = input.nextByte();
+                if(backMenu == 0){
+                    runShow = false;
+                }else if(backMenu == 1){
+                    runShow = true;
+                }
+            }while(backMenu < 0 || backMenu > 1);
+            
+        }while(runShow);
+    }
+
+    public static void showStaffSalaryListSortAsc(Scanner input, ArrayList<Staff> staffs){
+        Employee employee;
+        Manager manager;
+        boolean runShow = true;
+        byte backMenu = 0;
+
+        Staff Staff_arr[] = new Staff[staffs.size()];
+
+        for(int i = 0; i < staffs.size(); i++){
+            Staff_arr[i] = staffs.get(i);
+        }
+
+        do{
+
+            System.out.println("==================================================================================================");
+            System.out.println("|  Ma NV  |           Ten NV           |    Phong ban    |    Chuc vu    |         Luong         |");
+            System.out.println("==================================================================================================");
+
+            for(int i = 0; i < staffs.size(); i++){
+                
+                if(staffs.get(i).position.equals("manager")){
+                    manager = (Manager)staffs.get(i);
+                        
+                    System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
+                    System.out.print(fillSpace(1) + manager.getName() + fillSpace(28 - 1 - manager.getName().length()) + "|");
+                    System.out.print(fillSpace(1) + manager.getDepartment() + fillSpace(17 -1 - manager.getDepartment().length()) + "|");
+                    System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
+                    System.out.print(fillSpace(1) + (int)manager.getSalary() + fillSpace(16 - Integer.toString((int)manager.getSalary()).length()) + "vnd   |\n"); 
+
+                }else{
+                    employee = (Employee)staffs.get(i);
+                        
+                    System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
+                    System.out.print(fillSpace(1) + employee.getName() + fillSpace(28 - 1 - employee.getName().length()) + "|");
+                    System.out.print(fillSpace(1) + employee.getDepartment() + fillSpace(17 -1 - employee.getDepartment().length()) + "|");
+                    System.out.print(fillSpace(1) + employee.getPosition() + fillSpace(15 - 1 - employee.getPosition().length()) + "|");
+                    System.out.print(fillSpace(1) + (int)employee.getSalary() + fillSpace(16 - Integer.toString((int)employee.getSalary()).length()) + "vnd   |\n"); 
+                }
+            }
+
+            System.out.println("==================================================================================================");
+        
+            do{
+                System.out.print("Nhap: Tiep tuc xem = 1, Quay ve Menu chinh = 0? ");
+                backMenu = input.nextByte();
+                if(backMenu == 0){
+                    runShow = false;
+                }else if(backMenu == 1){
+                    runShow = true;
+                }
+            }while(backMenu < 0 || backMenu > 1);
+            
+        }while(runShow);
+    }
+
+    public static void showStaffSalaryListSortDesc(Scanner input, ArrayList<Staff> staffs){
     }
 }
 

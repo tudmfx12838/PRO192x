@@ -11,6 +11,7 @@ package com.mycompany.humanresources;
 public class Employee extends Staff implements ICalculator {
 
     private int overTime;
+    private double salary;
 
     public Employee(){}
 
@@ -26,6 +27,8 @@ public class Employee extends Staff implements ICalculator {
         this.annualLeave = annualLeave;
         this.position = "staff";
         this.overTime = overTime;
+
+        this.salary = calculateSalary();
     }
     
     public void setOverTime(int overTime){
@@ -39,6 +42,10 @@ public class Employee extends Staff implements ICalculator {
     @Override
     public double calculateSalary() {
         return salaryScale*EMPLOYEE_SALARY + overTime*OVERTIME_SALARY;
+    }
+
+    public double getSalary() {
+        return salary;
     }
 
     @Override
