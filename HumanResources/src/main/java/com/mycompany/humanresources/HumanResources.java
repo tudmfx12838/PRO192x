@@ -4,6 +4,7 @@
  */
 package com.mycompany.humanresources;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 /**
@@ -46,12 +47,6 @@ public class HumanResources {
             }else if(staffs.get(i).department.equals("IT")){
                 countStaffIT++;
             }
-                
-            // if(staffs.get(i).position.equals("manager")){
-            //     manager = (Manager)staffs.get(i); 
-            // }else{
-            //     employee = (Employee)staffs.get(i);    
-            // }
         }
 
         department[0] = new Department("F001", "Finance", countStaffFinance);
@@ -69,7 +64,7 @@ public class HumanResources {
 
         initStaffList(staffs);
         initDepartmentList(staffs, departments);
-        
+
         while(runApp){
             begin();
             listFeature();
@@ -93,8 +88,7 @@ public class HumanResources {
         System.out.println("4. Them nhan vien moi vao cong ty ");
         System.out.println("5. Tim kiem thong tin nhan vien theo ten hoan ma nhan vien");
         System.out.println("6. Hien thi bang luong cua nhan vien toan cong ty");
-        System.out.println("7. Hien thi bang luong cua nhan vien theo thu tu tang dan");
-        System.out.println("8. Hien thi bang luong cua nhan vien theo thu tu giam dan");
+        System.out.println("7. Hien thi bang luong cua nhan vien theo thu tu giam dan hoac tang dan");
         System.out.println("0. Thoat ung dung");
         System.out.println();
     }
@@ -123,7 +117,7 @@ public class HumanResources {
 
         }else if(choseFeature == 4){
 
-            addStaff(input, staffs);
+            addStaff(input, staffs, departments);
 
         }else if(choseFeature == 5){
 
@@ -133,13 +127,23 @@ public class HumanResources {
 
         }else if(choseFeature == 7){
 
-        }else if(choseFeature == 8){
+            showSortStaffSalaryList(input, staffs);
 
         }
 
     }
 
-    public static void addStaff(Scanner input, ArrayList<Staff> staffs){
+    public static void updateNumOfStaffDepartment(Department departments[], String department){
+
+        for(int i = 0; i < departments.length; i++){
+            if(departments[i].getDepartmentName().equals(department)){
+                departments[i].setNumOfStaff(departments[i].getNumOfStaff() + 1);
+            }
+        }
+
+    }
+
+    public static void addStaff(Scanner input, ArrayList<Staff> staffs, Department departments[]){
         byte staffPosition = 0;
         String staffId = "";
         String name = "";
@@ -156,7 +160,8 @@ public class HumanResources {
         boolean runAddStaff = true;
         byte nextAddStaff = 0;
 
-        
+        Employee employee;
+        Manager manager;
 
         while(runAddStaff){
         
@@ -222,7 +227,7 @@ public class HumanResources {
                 }else if(choseDepartment == 4){
                     department = "IT";
                 }
-            }while(choseDepartment < 1 || choseDepartment > 3);
+            }while(choseDepartment < 1 || choseDepartment > 4);
 
     
             System.out.print("Nhap ngay phep?                      ");
@@ -235,27 +240,33 @@ public class HumanResources {
                 }while(overTime < 0);
             }
             
-            if(staffPosition == 1){
-                System.out.format("%s  %s  %d  %f  %s  %s  %d  %s", staffId, name, age, salaryScale, startDate, department, annualLeave, positionManager);
-                staffs.add(new Manager(staffId, name, age, salaryScale, startDate, department, annualLeave, positionManager));
-            }else if(staffPosition == 2){
-                System.out.format("%s  %s  %d  %f  %s  %s  %d  %d", staffId, name, age, salaryScale, startDate, department, annualLeave, overTime);
-                staffs.add(new Employee(staffId, name, age, salaryScale, startDate, department, annualLeave, overTime));
-            }
-
+            updateNumOfStaffDepartment(departments, department);
             System.out.println();
+
+            if(staffPosition == 1){
+                // System.out.format("%s  %s  %d  %f  %s  %s  %d  %s", staffId, name, age, salaryScale, startDate, department, annualLeave, positionManager);
+                staffs.add(new Manager(staffId, name, age, salaryScale, startDate, department, annualLeave, positionManager));
+                System.out.println("Them nhan vien thanh cong");
+                manager = (Manager)staffs.get(staffs.size() - 1);
+                manager.displayInformation();
+            }else if(staffPosition == 2){
+                // System.out.format("%s  %s  %d  %f  %s  %s  %d  %d", staffId, name, age, salaryScale, startDate, department, annualLeave, overTime);
+                staffs.add(new Employee(staffId, name, age, salaryScale, startDate, department, annualLeave, overTime));
+                System.out.println("Them nhan vien thanh cong");
+                employee = (Employee)staffs.get(staffs.size() - 1);
+                employee.displayInformation();
+            }
 
             do{
                 System.out.print("Nhap: Tiep tuc them = 1, Quay ve Menu chinh = 0? ");
                 nextAddStaff = input.nextByte();
+                if(nextAddStaff == 0){
+                    runAddStaff = false;
+                }else if(nextAddStaff == 1){
+                    runAddStaff = true;
+                }
             }while(nextAddStaff < 0 ||  nextAddStaff > 1);
             
-            if(nextAddStaff == 0){
-                runAddStaff = false;
-            }else if(nextAddStaff == 1){
-                runAddStaff = true;
-            }
-
             System.out.println();
         }
     }
@@ -273,7 +284,7 @@ public class HumanResources {
 
             for(int i = 0; i < staffs.size(); i++){
                 
-                if(staffs.get(i).position.equals("manager")){
+                if(staffs.get(i) instanceof Manager){
                     manager = (Manager)staffs.get(i);
                         
                     System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
@@ -283,7 +294,7 @@ public class HumanResources {
                     System.out.print(fillSpace(1) + manager.getPositionManager() + fillSpace(23 - 1 - manager.getPositionManager().length()) + "|");
                     System.out.print(fillSpace(1) + manager.getStartDate() + fillSpace(13 - manager.getStartDate().length()) + "|\n"); 
 
-                }else{
+                }else if(staffs.get(i) instanceof Employee){
                     employee = (Employee)staffs.get(i);
                         
                     System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
@@ -375,7 +386,7 @@ public class HumanResources {
 
             for(int i = 0; i < staffs.size(); i++){
                 
-                if(staffs.get(i).position.equals("manager")&&staffs.get(i).department.equals(choseDepartment)){
+                if((staffs.get(i) instanceof Manager)&&staffs.get(i).department.equals(choseDepartment)){
                     manager = (Manager)staffs.get(i);
                         
                     System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
@@ -390,7 +401,7 @@ public class HumanResources {
 
             for(int i = 0; i < staffs.size(); i++){
 
-                if(staffs.get(i).position.equals("staff")&&staffs.get(i).department.equals(choseDepartment)){
+                if((staffs.get(i) instanceof Employee)&&staffs.get(i).department.equals(choseDepartment)){
                     employee = (Employee)staffs.get(i);
                         
                     System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
@@ -431,7 +442,7 @@ public class HumanResources {
 
             for(int i = 0; i < staffs.size(); i++){
                 
-                if(staffs.get(i).position.equals("manager")){
+                if(staffs.get(i) instanceof Manager){
                     manager = (Manager)staffs.get(i);
                         
                     System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
@@ -440,7 +451,7 @@ public class HumanResources {
                     System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
                     System.out.print(fillSpace(1) + (int)manager.getSalary() + fillSpace(16 - Integer.toString((int)manager.getSalary()).length()) + "vnd   |\n"); 
 
-                }else{
+                }else if(staffs.get(i) instanceof Employee){
                     employee = (Employee)staffs.get(i);
                         
                     System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
@@ -466,59 +477,103 @@ public class HumanResources {
         }while(runShow);
     }
 
-    public static void showStaffSalaryListSortAsc(Scanner input, ArrayList<Staff> staffs){
+    public static void showSortStaffSalaryList(Scanner input, ArrayList<Staff> staffs){
         Employee employee;
         Manager manager;
         boolean runShow = true;
-        byte backMenu = 0;
+        byte choseNum = 1;
 
-        Staff Staff_arr[] = new Staff[staffs.size()];
-
-        for(int i = 0; i < staffs.size(); i++){
-            Staff_arr[i] = staffs.get(i);
-        }
-
+        ArrayList<Staff> staffs_2 = new ArrayList<>();
+        staffs_2.addAll(staffs);
+        
         do{
+            if(choseNum == 1){
+                sortStaffSalary(staffs_2,"Asc");
+            }else if(choseNum == 2){
+                sortStaffSalary(staffs_2,"Desc");
+            }else if(choseNum == 3){
+                staffs_2.clear();
+                staffs_2.addAll(staffs);
+            }
 
             System.out.println("==================================================================================================");
             System.out.println("|  Ma NV  |           Ten NV           |    Phong ban    |    Chuc vu    |         Luong         |");
             System.out.println("==================================================================================================");
 
-            for(int i = 0; i < staffs.size(); i++){
-                
-                if(staffs.get(i).position.equals("manager")){
-                    manager = (Manager)staffs.get(i);
-                        
+            for(int i = 0; i < staffs_2.size(); i++){
+      
+                if(staffs_2.get(i) instanceof Manager){
+                    manager = (Manager)staffs_2.get(i);
+
                     System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
                     System.out.print(fillSpace(1) + manager.getName() + fillSpace(28 - 1 - manager.getName().length()) + "|");
                     System.out.print(fillSpace(1) + manager.getDepartment() + fillSpace(17 -1 - manager.getDepartment().length()) + "|");
                     System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
-                    System.out.print(fillSpace(1) + (int)manager.getSalary() + fillSpace(16 - Integer.toString((int)manager.getSalary()).length()) + "vnd   |\n"); 
+                    System.out.print(fillSpace(1) + (int)manager.getSalary() + fillSpace(16 - Integer.toString((int)manager.getSalary()).length()) + "vnd   |\n");
+                }else if(staffs_2.get(i) instanceof Employee){
+                    employee = (Employee)staffs_2.get(i);
 
-                }else{
-                    employee = (Employee)staffs.get(i);
-                        
                     System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
                     System.out.print(fillSpace(1) + employee.getName() + fillSpace(28 - 1 - employee.getName().length()) + "|");
                     System.out.print(fillSpace(1) + employee.getDepartment() + fillSpace(17 -1 - employee.getDepartment().length()) + "|");
                     System.out.print(fillSpace(1) + employee.getPosition() + fillSpace(15 - 1 - employee.getPosition().length()) + "|");
                     System.out.print(fillSpace(1) + (int)employee.getSalary() + fillSpace(16 - Integer.toString((int)employee.getSalary()).length()) + "vnd   |\n"); 
-                }
+                } 
             }
 
             System.out.println("==================================================================================================");
         
             do{
-                System.out.print("Nhap: Tiep tuc xem = 1, Quay ve Menu chinh = 0? ");
-                backMenu = input.nextByte();
-                if(backMenu == 0){
+                System.out.print("Nhap: Luong tang dan = 1, Luong giam dan = 2, Bang luong goc = 3, Quay ve Menu chinh = 0? ");
+                choseNum = input.nextByte();
+                if(choseNum == 0){
                     runShow = false;
-                }else if(backMenu == 1){
+                }else{
                     runShow = true;
                 }
-            }while(backMenu < 0 || backMenu > 1);
+            }while(choseNum < 0 || choseNum > 3);
             
         }while(runShow);
+    }
+
+    public static void sortStaffSalary(ArrayList<Staff> staffs, String sortRule){
+        Staff staff_temp = null;
+        double staffSalary_1 = 0.0, staffSalary_2 = 0.0;
+
+        for(int i = 0; i < staffs.size() - 1; i++){
+            for(int j = i + 1; j < staffs.size(); j++){
+                if(staffs.get(i) instanceof Manager){
+                    staffSalary_1 = ((Manager)staffs.get(i)).getSalary();
+                }else if(staffs.get(i) instanceof Employee){
+                    staffSalary_1 = ((Employee)staffs.get(i)).getSalary();
+                }
+
+                if(staffs.get(j) instanceof Manager){
+                    staffSalary_2 = ((Manager)staffs.get(j)).getSalary();
+                }else if(staffs.get(j) instanceof Employee){
+                    staffSalary_2 = ((Employee)staffs.get(j)).getSalary();
+                }
+
+                if(sortRule.equals("Desc")){
+                    if(staffSalary_1 < staffSalary_2){
+                        staff_temp = staffs.get(i);
+                        staffs.set(i, null);
+                        staffs.set(i, staffs.get(j));
+                        staffs.set(j, null);
+                        staffs.set(j, staff_temp);
+                    }
+                }else if(sortRule.equals("Asc")){
+                    if(staffSalary_1 > staffSalary_2){
+                        staff_temp = staffs.get(i);
+                        staffs.set(i, null);
+                        staffs.set(i, staffs.get(j));
+                        staffs.set(j, null);
+                        staffs.set(j, staff_temp);
+                    }
+                }
+
+            }
+        }
     }
 
     public static void showStaffSalaryListSortDesc(Scanner input, ArrayList<Staff> staffs){
