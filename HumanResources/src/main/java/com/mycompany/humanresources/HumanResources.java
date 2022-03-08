@@ -27,32 +27,7 @@ public class HumanResources {
         staffs.add(new Employee("010", "Nguyen Van K", 32, 3.1, "01/01/2010", "IT", 15, 17 ));
         staffs.add(new Manager("011", "Nguyen Van L", 36, 3.1, "01/01/2009", "IT", 20, "Technical Leader" ));
         staffs.add(new Employee("012", "Nguyen Van M", 25, 2.1, "01/01/2021", "IT", 15, 16 ));
-    }
-
-    public static void initDepartmentList(ArrayList<Staff> staffs, Department department[]){
-        // Employee employee;
-        // Manager manager;
-        int countStaffFinance = 0;
-        int countStaffSale = 0;
-        int countStaffMarketing = 0;
-        int countStaffIT = 0;
-
-        for(int i = 0; i < staffs.size(); i++){
-            if(staffs.get(i).department.equals("Finance")){
-                countStaffFinance++;
-            }else if(staffs.get(i).department.equals("Sale")){
-                countStaffSale++;
-            }else if(staffs.get(i).department.equals("Marketing")){
-                countStaffMarketing++;
-            }else if(staffs.get(i).department.equals("IT")){
-                countStaffIT++;
-            }
-        }
-
-        department[0] = new Department("F001", "Finance", countStaffFinance);
-        department[1] = new Department("S002", "Sale", countStaffSale);
-        department[2] = new Department("M003", "Marketing", countStaffMarketing);
-        department[3] = new Department("I001", "IT", countStaffIT);
+        staffs.add(new Employee("022", "Tran Trung C", 26, 2.2, "01/11/2021", "IT", 14, 15 ));
     }
 
     public static boolean runApp = true;
@@ -63,7 +38,7 @@ public class HumanResources {
         Department departments[] = new Department[4];
 
         initStaffList(staffs);
-        initDepartmentList(staffs, departments);
+        updateDepartmentList(staffs, departments);
 
         while(runApp){
             begin();
@@ -89,6 +64,7 @@ public class HumanResources {
         System.out.println("5. Tim kiem thong tin nhan vien theo ten hoan ma nhan vien");
         System.out.println("6. Hien thi bang luong cua nhan vien toan cong ty");
         System.out.println("7. Hien thi bang luong cua nhan vien theo thu tu giam dan hoac tang dan");
+        System.out.println("8. Xoa nhan vien");
         System.out.println("0. Thoat ung dung");
         System.out.println();
     }
@@ -121,6 +97,8 @@ public class HumanResources {
 
         }else if(choseFeature == 5){
 
+            showSearchStaff(input, staffs);
+            
         }else if(choseFeature == 6){
 
             showStaffSalaryList(input, staffs);
@@ -129,8 +107,39 @@ public class HumanResources {
 
             showSortStaffSalaryList(input, staffs);
 
+        }else if(choseFeature == 8){
+
+            removeStaffByStaffId(input, staffs, departments);
+
         }
 
+
+    }
+
+    public static void updateDepartmentList(ArrayList<Staff> staffs, Department department[]){
+        // Employee employee;
+        // Manager manager;
+        int countStaffFinance = 0;
+        int countStaffSale = 0;
+        int countStaffMarketing = 0;
+        int countStaffIT = 0;
+
+        for(int i = 0; i < staffs.size(); i++){
+            if(staffs.get(i).department.equals("Finance")){
+                countStaffFinance++;
+            }else if(staffs.get(i).department.equals("Sale")){
+                countStaffSale++;
+            }else if(staffs.get(i).department.equals("Marketing")){
+                countStaffMarketing++;
+            }else if(staffs.get(i).department.equals("IT")){
+                countStaffIT++;
+            }
+        }
+
+        department[0] = new Department("F001", "Finance", countStaffFinance);
+        department[1] = new Department("S002", "Sale", countStaffSale);
+        department[2] = new Department("M003", "Marketing", countStaffMarketing);
+        department[3] = new Department("I001", "IT", countStaffIT);
     }
 
     public static void updateNumOfStaffDepartment(Department departments[], String department){
@@ -336,7 +345,6 @@ public class HumanResources {
 
             for(int i = 0; i < departments.length; i++){
                 
-
                 System.out.print("|" + fillSpace(2) + departments[i].getDepartmentId() + fillSpace(8) + "|");
                 System.out.print(fillSpace(2) + departments[i].getDepartmentName() + fillSpace(20 - 1 - departments[i].getDepartmentName().length()) + "|");
                 System.out.print(fillSpace(2) + departments[i].getNumOfStaff() + fillSpace(19 - Integer.toString(departments[i].getNumOfStaff()).length()) + "|\n");
@@ -576,8 +584,162 @@ public class HumanResources {
         }
     }
 
-    public static void showStaffSalaryListSortDesc(Scanner input, ArrayList<Staff> staffs){
+    public static void showSearchStaff(Scanner input, ArrayList<Staff> staffs){
+        Employee employee;
+        Manager manager;
+        boolean runShow = true;
+        byte choseNum = 1;
+        String keyword = "";
+        ArrayList<Staff> searchedStaff = new ArrayList<>();
+ 
+        do{
+            searchedStaff.clear();
+            System.out.print("Nhap ma nhan vien hoac ten nhan vien can tim? ");
+            keyword = input.next();
+            for(Staff staff : staffs){
+                if(staff.getStaffId().equals(keyword)){
+                    searchedStaff.add(staff);
+                }else if(staff.getName().endsWith(keyword)){
+                    searchedStaff.add(staff);
+                }
+            }
+            
+            if(!searchedStaff.isEmpty()){
+
+                System.out.println("=================================================================================================================");
+                System.out.println("|  Ma NV  |           Ten NV           |    Phong ban    |    Chuc vu    |       Chuc danh       |    Ngay vao  |");
+                System.out.println("=================================================================================================================");
+
+                for(int i = 0; i < searchedStaff.size(); i++){
+                    
+                    if(searchedStaff.get(i) instanceof Manager){
+                        manager = (Manager)searchedStaff.get(i);
+                            
+                        System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
+                        System.out.print(fillSpace(1) + manager.getName() + fillSpace(28 - 1 - manager.getName().length()) + "|");
+                        System.out.print(fillSpace(1) + manager.getDepartment() + fillSpace(17 -1 - manager.getDepartment().length()) + "|");
+                        System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
+                        System.out.print(fillSpace(1) + manager.getPositionManager() + fillSpace(23 - 1 - manager.getPositionManager().length()) + "|");
+                        System.out.print(fillSpace(1) + manager.getStartDate() + fillSpace(13 - manager.getStartDate().length()) + "|\n"); 
+
+                    }else if(searchedStaff.get(i) instanceof Employee){
+                        employee = (Employee)searchedStaff.get(i);
+                            
+                        System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
+                        System.out.print(fillSpace(1) + employee.getName() + fillSpace(28 - 1 - employee.getName().length()) + "|");
+                        System.out.print(fillSpace(1) + employee.getDepartment() + fillSpace(17 -1 - employee.getDepartment().length()) + "|");
+                        System.out.print(fillSpace(1) + employee.getPosition() + fillSpace(15 - 1 - employee.getPosition().length()) + "|");
+                        System.out.print(fillSpace(23) + "|"); 
+                        System.out.print(fillSpace(1) + employee.getStartDate() + fillSpace(13 - employee.getStartDate().length()) + "|\n"); 
+                    }
+                }
+
+                System.out.println("=================================================================================================================");
+                
+            }else{
+                System.out.println("??????????????????????????????");
+                System.out.println("??? Khong tim thay ket qua ???");
+                System.out.println("??????????????????????????????");
+            }
+
+            do{
+                System.out.print("Nhap: Tiep tuc tim = 1, Quay ve Menu chinh = 0? ");
+                choseNum = input.nextByte();
+                if(choseNum == 0){
+                    runShow = false;
+                }else{
+                    runShow = true;
+                }
+            }while(choseNum < 0 || choseNum > 1);
+            
+        }while(runShow);
+
     }
+
+    public static void removeStaffByStaffId(Scanner input, ArrayList<Staff> staffs, Department departments[]){
+
+        Employee employee;
+        Manager manager;
+        boolean runShow = true;
+        byte choseNum = 1;
+        String keyword = "";
+        Staff searchedStaff = null;
+
+        byte isDelete = 0;
+        int deleteIndex = 0;
+ 
+        do{
+            searchedStaff = null;
+            System.out.print("Nhap ma nhan vien muon xoa? ");
+            keyword = input.next();
+            for(int i = 0; i < staffs.size(); i++){
+                if(staffs.get(i).getStaffId().equals(keyword)){
+                    searchedStaff = staffs.get(i);
+                    deleteIndex = i;
+                    break;
+                }
+            }
+            
+            if(searchedStaff != null){
+
+                System.out.println("=================================================================================================================");
+                System.out.println("|  Ma NV  |           Ten NV           |    Phong ban    |    Chuc vu    |       Chuc danh       |    Ngay vao  |");
+                System.out.println("=================================================================================================================");
+
+                if(searchedStaff instanceof Manager){
+                    manager = (Manager)searchedStaff;
+                        
+                    System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
+                    System.out.print(fillSpace(1) + manager.getName() + fillSpace(28 - 1 - manager.getName().length()) + "|");
+                    System.out.print(fillSpace(1) + manager.getDepartment() + fillSpace(17 -1 - manager.getDepartment().length()) + "|");
+                    System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
+                    System.out.print(fillSpace(1) + manager.getPositionManager() + fillSpace(23 - 1 - manager.getPositionManager().length()) + "|");
+                    System.out.print(fillSpace(1) + manager.getStartDate() + fillSpace(13 - manager.getStartDate().length()) + "|\n"); 
+
+                }else if(searchedStaff instanceof Employee){
+                    employee = (Employee)searchedStaff;
+                        
+                    System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
+                    System.out.print(fillSpace(1) + employee.getName() + fillSpace(28 - 1 - employee.getName().length()) + "|");
+                    System.out.print(fillSpace(1) + employee.getDepartment() + fillSpace(17 -1 - employee.getDepartment().length()) + "|");
+                    System.out.print(fillSpace(1) + employee.getPosition() + fillSpace(15 - 1 - employee.getPosition().length()) + "|");
+                    System.out.print(fillSpace(23) + "|"); 
+                    System.out.print(fillSpace(1) + employee.getStartDate() + fillSpace(13 - employee.getStartDate().length()) + "|\n"); 
+                }
+                
+                System.out.println("=================================================================================================================");
+                
+                do{
+                    System.out.print("Ban chac chan muon xoa, nhap: Xoa = 1, Khong Xoa = 0? ");
+                    isDelete = input.nextByte();
+                    if(isDelete == 1){
+                        staffs.remove(deleteIndex);
+                        updateDepartmentList(staffs, departments);
+                        System.out.println("Xoa thanh cong!\n");
+                    }else if(isDelete == 0){
+                        //don't remove
+                    }
+                }while(isDelete < 0 || isDelete > 1);
+
+            }else{
+                System.out.println("??????????????????????????????");
+                System.out.println("??? Khong tim thay ket qua ???");
+                System.out.println("??????????????????????????????");
+            }
+
+            do{
+                System.out.print("Nhap: Tiep tuc tim = 1, Quay ve Menu chinh = 0? ");
+                choseNum = input.nextByte();
+                if(choseNum == 0){
+                    runShow = false;
+                }else{
+                    runShow = true;
+                }
+            }while(choseNum < 0 || choseNum > 1);
+            
+        }while(runShow);
+    }
+  
 }
 
 
