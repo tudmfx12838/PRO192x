@@ -38,16 +38,27 @@ public class Employee extends Staff implements ICalculator {
     public int getOverTime(){
         return overTime;
     }
+
     
+    public double getSalary() {
+        return salary;
+    }
+
+    /**
+	 * {@interface}
+	 * This inserts the docs from the ICalculator Interface.
+	 * Implement staff's salary calculation.
+	 */
     @Override
     public double calculateSalary() {
         return salaryScale*EMPLOYEE_SALARY + overTime*OVERTIME_SALARY;
     }
 
-    public double getSalary() {
-        return salary;
-    }
-
+    /**
+	 * {@inheritDoc}
+	 * This inserts the docs from the overridden method above.
+	 * Implementation-specific docuementation can then be added here.
+	 */
     @Override
     public void displayInformation() {
         System.out.println("Ma so NV:      " + staffId);

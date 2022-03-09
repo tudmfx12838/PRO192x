@@ -13,6 +13,9 @@ import java.util.Scanner;
  */
 public class HumanResources {
     
+    /**
+     * The method initStaffList() init the sample to staff list for testing
+     */
     public static void initStaffList(ArrayList<Staff> staffs){
         // staffs.add(new Manager(staffId, name, age, salaryScale, startDate, department, annualLeave, positionManager));
         //  Business Leader = 1, Project Leader = 2, Technical Leader = 3? 
@@ -30,30 +33,49 @@ public class HumanResources {
         staffs.add(new Employee("022", "Tran Trung C", 26, 2.2, "01/11/2021", "IT", 14, 15 ));
     }
 
+    /**
+     * Software is running if runApp is true and stop if it's false.
+     */
     public static boolean runApp = true;
     
     public static void main(String[] args) {
+        //Instance an object form class Scanner to get user's input
         Scanner input = new Scanner(System.in);
+        //Declare ArrayList as staffs that's instance form abstract class Staff
         ArrayList<Staff> staffs = new ArrayList<>();
+        //Instance an object form class Department
         Department departments[] = new Department[4];
 
+        //init staff list
         initStaffList(staffs);
+
+        //update department's number of staff
         updateDepartmentList(staffs, departments);
 
         while(runApp){
+            //Call method begin()
             begin();
+
+            //Call method listFeature()
             listFeature();
+
+            //Call method chooseFeature()
             chooseFeature(input, staffs, departments);
-            System.out.println();
         }
 
     }
 
+    /**
+     * The method begin() show software introduction
+     */
     public static void begin(){
         System.out.println("Ung dung quan ly nguon nhan luc 1.0");
         System.out.println();
     }
     
+    /**
+     * The method listFeature() show software's list feature
+     */
     public static void listFeature(){
         System.out.println("Chuc nang cua ung dung gom: ");
         System.out.println();
@@ -68,62 +90,88 @@ public class HumanResources {
         System.out.println("0. Thoat ung dung");
         System.out.println();
     }
-    
+
+    /**
+     * The method chooseFeature() implement software's feature following user's input
+     * @param input       use object Scanner to get user's input
+     * @param staffs      is staff list
+     * @param departments      is department list
+     * Description: Some of software will be called if user's input:
+     * is 0 : Exit
+     * is 1 : Show staff list
+     * is 2 : Show department list
+     * is 3 : Show staff list for each department
+     * is 4 : Add new staff
+     * is 5 : Find a staff in staff list
+     * is 6 : Show staff's salary of list
+     * is 7 : Show staff's sorting salary of list
+     * is 8 : Remove staff by staff's id
+     */
     public static void chooseFeature(Scanner input, ArrayList<Staff> staffs, Department departments[]){
         byte choseFeature = 0;
+
+        //Require input a software feature form 0 to 8, if it's different form range, require input agian
         do{
             System.out.print("Nhap tinh nang de thuc hien (0 - 8)? ");
             choseFeature = input.nextByte();
         }while(choseFeature < 0 || choseFeature > 8);
 
         if(choseFeature == 0){
+            //Set runApp to false to Exit program
             runApp = false;
-            System.out.println("Hen gap lai");
-        }else if(choseFeature == 1){
 
+            //Say goodbye
+            System.out.println("Hen gap lai");
+
+        }else if(choseFeature == 1){
+            //Call method showStaffList() to show staff list
             showStaffList(input, staffs);
 
         }else if(choseFeature == 2){
-
+            //Call method showDepartmentList() to show department list
             showDepartmentList(input, departments);
 
         }else if(choseFeature == 3){
-
+            //Call method showDepartmentStaffList() to show staff list for each department
             showDepartmentStaffList(input, staffs);
 
         }else if(choseFeature == 4){
-
+            //Call method addStaff() to add new staff to staff list
             addStaff(input, staffs, departments);
 
         }else if(choseFeature == 5){
-
+            //Call method showSearchStaff() to search staff
             showSearchStaff(input, staffs);
             
         }else if(choseFeature == 6){
-
+            //Call method showStaffSalaryList() to show staff's salary list
             showStaffSalaryList(input, staffs);
 
         }else if(choseFeature == 7){
-
+            //Call method showSortStaffSalaryList() to show staff's sorting salary list
             showSortStaffSalaryList(input, staffs);
 
         }else if(choseFeature == 8){
-
+            //Call method removeStaffByStaffId() to remove staff by staff'id
             removeStaffByStaffId(input, staffs, departments);
 
         }
 
-
+        System.out.println();
     }
 
+    /**
+     * The method updateDepartmentList() implement update department's number of staff
+     * @param staffs      is staff list
+     * @param departments      is department list
+     */
     public static void updateDepartmentList(ArrayList<Staff> staffs, Department department[]){
-        // Employee employee;
-        // Manager manager;
         int countStaffFinance = 0;
         int countStaffSale = 0;
         int countStaffMarketing = 0;
         int countStaffIT = 0;
 
+        //Count number of staff from staff list following each department's name
         for(int i = 0; i < staffs.size(); i++){
             if(staffs.get(i).department.equals("Finance")){
                 countStaffFinance++;
@@ -136,14 +184,20 @@ public class HumanResources {
             }
         }
 
+        //Update number of staff for each department
         department[0] = new Department("F001", "Finance", countStaffFinance);
         department[1] = new Department("S002", "Sale", countStaffSale);
         department[2] = new Department("M003", "Marketing", countStaffMarketing);
         department[3] = new Department("I001", "IT", countStaffIT);
     }
 
+    /**
+     * The method updateNumOfStaffDepartment() implement update department's number of staff
+     * @param departments      is department list
+     * @param departmemnt      is department's name
+     */
     public static void updateNumOfStaffDepartment(Department departments[], String department){
-
+        //Update number of staff in department list following department's name
         for(int i = 0; i < departments.length; i++){
             if(departments[i].getDepartmentName().equals(department)){
                 departments[i].setNumOfStaff(departments[i].getNumOfStaff() + 1);
@@ -152,6 +206,30 @@ public class HumanResources {
 
     }
 
+    /**
+     * The method checkExistedStaffId() implement checking  staff'id exist or not in staff list
+     * @param staffs            is staff list
+     * @param inputStaffId      is staff's id
+     * @return return true if inputed staff's id is existing and return false if it's not exist.
+     */
+    public static boolean checkExistedStaffId(ArrayList<Staff> staffs, String inputStaffId){
+        boolean checkResult = false;
+
+        for(Staff staff : staffs){
+            if(staff.getStaffId().equals(inputStaffId)){
+                checkResult = true;
+                break;
+            }
+        }
+        return checkResult;
+    }
+
+    /**
+     * The method addStaff() implement adding new staff to staff list and update number of staff in department
+     * @param input             use object Scanner to get user's input
+     * @param staffs            is staff list
+     * @param departments       is department list
+     */
     public static void addStaff(Scanner input, ArrayList<Staff> staffs, Department departments[]){
         byte staffPosition = 0;
         String staffId = "";
@@ -172,6 +250,7 @@ public class HumanResources {
         Employee employee;
         Manager manager;
 
+        //if runAddStaff is true, add staff feature always run. if it's false, it will be stopped and back to main menu.
         while(runAddStaff){
         
             staffPosition = 0;
@@ -187,12 +266,18 @@ public class HumanResources {
             positionManager = "";
 
             System.out.println("Them nhan vien moi vao cong ty ");
-
+            /** 
+             * Require input staff position with 2 options, if it different from, require input again
+             *staffPosition is 1 that's mean, manager's data is being inputted
+             *staffPosition is 2 that's mean, employee's data is being inputted
+            */
             do{
                 System.out.print("Nhap vi tri nhan vien: Quan ly = 1, Nhan vien = 2? ");
                 staffPosition = input.nextByte();
             }while(staffPosition < 1 ||  staffPosition > 2);
-    
+            
+            
+            //if input's data for employee, require input manager position with 3 options, if it different from, require input again
             if(staffPosition == 1){
                 do{
                     System.out.print("Nhap vi tri Quan ly: Business Leader = 1, Project Leader = 2, Technical Leader = 3? ");
@@ -208,22 +293,53 @@ public class HumanResources {
                 }
             }
             
-            System.out.print("Nhap ma so nhan vien?                ");
-            staffId = input.next();
-            input.nextLine();
-            
+            //Require input staff id, if it is existing in staff list, require input again
+            do{
+                System.out.print("Nhap ma so nhan vien?                ");
+                staffId = input.next();
+                input.nextLine();
+                
+                //Call method checkExistedStaffId() to check staff's id is exist or not in staff list
+                //If it's existing, inform user and require input again
+                if(checkExistedStaffId(staffs,staffId)){
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    System.out.println("!!! Ma so nhan vien da ton tai !!!");
+                    System.out.println("!!! Xin nhap ma nhan vien moi  !!!");
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                }
+            }while(checkExistedStaffId(staffs,staffId));
+
+            //Require input staff's name
             System.out.print("Nhap ten nhan vien?                  ");
             name = input.nextLine();
-    
-            System.out.print("Nhap tuoi nhan vien?                 ");
-            age = input.nextInt();
-    
-            System.out.print("Nhap he so luong?                    ");
-            salaryScale = input.nextDouble();
-    
+            
+            //Require input staff's age, if age less than 18, inform user and require input again
+            do{
+                System.out.print("Nhap tuoi nhan vien(tuoi >= 18)?      ");
+                age = input.nextInt();
+                if(age < 18){
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    System.out.println("!!! Nhan vien chua du toi di lam !!!");
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                }
+            }while(age < 18);
+
+            //Require input staff's age, if age less than 18, inform user and require input again
+            do{
+                System.out.print("Nhap he so luong(hsl >= 1)?          ");
+                salaryScale = input.nextDouble();
+                if(salaryScale < 1.0){
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    System.out.println("!!! He so luong phai >= 1 !!!");
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                }
+            }while(salaryScale < 1.0);
+            
+            //Require input staff's started date.
             System.out.print("Nhap ngay vao cong ty(dd/mm/yyyy)?   ");
             startDate = input.next();
 
+            //Require input staff's deparment with with 4 options, if it different from range, require input again
             do{
                 System.out.print("Nhap phong ban: \nFinance=1, Sale=2, Marketing=3, IT=4? ");
                 choseDepartment = input.nextByte();
@@ -238,10 +354,11 @@ public class HumanResources {
                 }
             }while(choseDepartment < 1 || choseDepartment > 4);
 
-    
+            //Require input staff's annual leave date
             System.out.print("Nhap ngay phep?                      ");
             annualLeave = input.nextInt();
-    
+            
+            //if input's data for employee, more require input employee over working time
             if(staffPosition == 2){
                 do{
                     System.out.print("Nhap so gio da lam them?             ");
@@ -249,9 +366,14 @@ public class HumanResources {
                 }while(overTime < 0);
             }
             
+            //Call method updateNumOfStaffDepartment() to update number of staff following inputed department name
             updateNumOfStaffDepartment(departments, department);
             System.out.println();
-
+            
+            /** 
+             *staffPosition is 1 that's mean, manager's data is being inputted. Update manager's data to staff list
+             *staffPosition is 2 that's mean, employee's data is being inputted. Update employee's data to staff list
+            */
             if(staffPosition == 1){
                 // System.out.format("%s  %s  %d  %f  %s  %s  %d  %s", staffId, name, age, salaryScale, startDate, department, annualLeave, positionManager);
                 staffs.add(new Manager(staffId, name, age, salaryScale, startDate, department, annualLeave, positionManager));
@@ -266,6 +388,7 @@ public class HumanResources {
                 employee.displayInformation();
             }
 
+            //Ask user for continue inputing or back to main menu
             do{
                 System.out.print("Nhap: Tiep tuc them = 1, Quay ve Menu chinh = 0? ");
                 nextAddStaff = input.nextByte();
@@ -280,6 +403,11 @@ public class HumanResources {
         }
     }
 
+    /**
+     * The method showStaffList() implement showing staff list
+     * @param input       use object Scanner to get user's input
+     * @param staffs      is staff list
+     */
     public static void showStaffList(Scanner input, ArrayList<Staff> staffs){
         Employee employee;
         Manager manager;
@@ -287,12 +415,14 @@ public class HumanResources {
         byte backMenu = 0;
 
         while(runShow){
+
+            //Show sheet structure
             System.out.println("=================================================================================================================");
             System.out.println("|  Ma NV  |           Ten NV           |    Phong ban    |    Chuc vu    |       Chuc danh       |    Ngay vao  |");
             System.out.println("=================================================================================================================");
 
             for(int i = 0; i < staffs.size(); i++){
-                
+                //if it's data of manager, show manager's data from staff list
                 if(staffs.get(i) instanceof Manager){
                     manager = (Manager)staffs.get(i);
                         
@@ -303,7 +433,9 @@ public class HumanResources {
                     System.out.print(fillSpace(1) + manager.getPositionManager() + fillSpace(23 - 1 - manager.getPositionManager().length()) + "|");
                     System.out.print(fillSpace(1) + manager.getStartDate() + fillSpace(13 - manager.getStartDate().length()) + "|\n"); 
 
-                }else if(staffs.get(i) instanceof Employee){
+                }
+                //if it's data of employee, show employee's data from staff list
+                else if(staffs.get(i) instanceof Employee){
                     employee = (Employee)staffs.get(i);
                         
                     System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
@@ -315,7 +447,8 @@ public class HumanResources {
                 }
             }
             System.out.println("=================================================================================================================");
-        
+            
+            //Ask user for backing to main menu
             do{
                 System.out.print("Nhap: Quay ve Menu chinh = 0? ");
                 backMenu = input.nextByte();
@@ -326,6 +459,10 @@ public class HumanResources {
         }
     }
 
+    /**
+     * The method fillSpace() implement fill space into a string
+     * @param sizeSpace       is number of space that want to fill
+     */
     public static String fillSpace(int sizeSpace){
         String space = "";
         for(int i = 0; i < sizeSpace; i++){
@@ -334,15 +471,22 @@ public class HumanResources {
         return space;
     }
 
+    /**
+     * The method showDepartmentList() implement showing department list
+     * @param input             use object Scanner to get user's input
+     * @param departments       is deparment list
+     */
     public static void showDepartmentList(Scanner input, Department departments[]){
         boolean runShow = true;
         byte backMenu = 0;
 
         while(runShow){
+            //Show sheet structure
             System.out.println("============================================================");
             System.out.println("|  Ma bo phan  |     Ten bo phan     |  So luong nhan vien |");
             System.out.println("============================================================");
 
+            //Show each department's infomation from deparment's list
             for(int i = 0; i < departments.length; i++){
                 
                 System.out.print("|" + fillSpace(2) + departments[i].getDepartmentId() + fillSpace(8) + "|");
@@ -351,7 +495,8 @@ public class HumanResources {
             }
 
             System.out.println("============================================================");
-        
+            
+            //Ask user for backing to main menu
             do{
                 System.out.print("Nhap: Quay ve Menu chinh = 0? ");
                 backMenu = input.nextByte();
@@ -362,6 +507,11 @@ public class HumanResources {
         }
     }
 
+    /**
+     * The method showDepartmentStaffList() implement showing staff of department from staffs list by inputing department's name
+     * @param input             use object Scanner to get user's input
+     * @param staffs            is staff list
+     */
     public static void showDepartmentStaffList(Scanner input, ArrayList<Staff> staffs){
         Employee employee;
         Manager manager;
@@ -372,6 +522,7 @@ public class HumanResources {
         String choseDepartment = "";
 
         do{
+            //Require input choosing deparment's name with with 4 options, if it different from range, require input again
             do{
                 System.out.print("Nhap phong ban muon xem: Finance = 1, Sale = 2, Marketing = 3, IT = 4?  ");
                 choose = input.nextByte();
@@ -387,11 +538,12 @@ public class HumanResources {
                 }
             }while(choose < 1 || choose > 4);
 
-
+            //Show sheet structure
             System.out.println("=================================================================================================================");
             System.out.println("|  Ma NV  |           Ten NV           |    Phong ban    |    Chuc vu    |       Chuc danh       |    Ngay vao  |");
             System.out.println("=================================================================================================================");
 
+            //Show manager's data following inputed department's name
             for(int i = 0; i < staffs.size(); i++){
                 
                 if((staffs.get(i) instanceof Manager)&&staffs.get(i).department.equals(choseDepartment)){
@@ -407,6 +559,7 @@ public class HumanResources {
                 }
             }
 
+            //Show employee's data following inputed department's name
             for(int i = 0; i < staffs.size(); i++){
 
                 if((staffs.get(i) instanceof Employee)&&staffs.get(i).department.equals(choseDepartment)){
@@ -422,7 +575,8 @@ public class HumanResources {
             }
 
             System.out.println("=================================================================================================================");
-        
+            
+            //Ask user for continue or backing to main menu
             do{
                 System.out.print("Nhap: Tiep tuc xem = 1, Quay ve Menu chinh = 0? ");
                 backMenu = input.nextByte();
@@ -436,6 +590,12 @@ public class HumanResources {
         }while(runShow);
     }
 
+    
+    /**
+     * The method showStaffSalaryList() implement showing staff's salary list
+     * @param input             use object Scanner to get user's input
+     * @param staffs            is staff list
+     */
     public static void showStaffSalaryList(Scanner input, ArrayList<Staff> staffs){
         Employee employee;
         Manager manager;
@@ -443,13 +603,13 @@ public class HumanResources {
         byte backMenu = 0;
 
         do{
-
+            //Show sheet structure
             System.out.println("==================================================================================================");
             System.out.println("|  Ma NV  |           Ten NV           |    Phong ban    |    Chuc vu    |         Luong         |");
             System.out.println("==================================================================================================");
 
             for(int i = 0; i < staffs.size(); i++){
-                
+                //if it's data of manager, show manager's data from staff list
                 if(staffs.get(i) instanceof Manager){
                     manager = (Manager)staffs.get(i);
                         
@@ -459,7 +619,9 @@ public class HumanResources {
                     System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
                     System.out.print(fillSpace(1) + (int)manager.getSalary() + fillSpace(16 - Integer.toString((int)manager.getSalary()).length()) + "vnd   |\n"); 
 
-                }else if(staffs.get(i) instanceof Employee){
+                }
+                //if it's data of employee, show employee's data from staff list
+                else if(staffs.get(i) instanceof Employee){
                     employee = (Employee)staffs.get(i);
                         
                     System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
@@ -471,7 +633,8 @@ public class HumanResources {
             }
 
             System.out.println("==================================================================================================");
-        
+            
+            //Ask user for continue or backing to main menu
             do{
                 System.out.print("Nhap: Tiep tuc xem = 1, Quay ve Menu chinh = 0? ");
                 backMenu = input.nextByte();
@@ -485,16 +648,29 @@ public class HumanResources {
         }while(runShow);
     }
 
+    /**
+     * The method showSortStaffSalaryList() implement showing sorting staff's salary list
+     * @param input             use object Scanner to get user's input
+     * @param staffs            is staff list
+     */
     public static void showSortStaffSalaryList(Scanner input, ArrayList<Staff> staffs){
         Employee employee;
         Manager manager;
         boolean runShow = true;
         byte choseNum = 1;
 
+        //Coppy to a temp of staff list
         ArrayList<Staff> staffs_2 = new ArrayList<>();
         staffs_2.addAll(staffs);
         
-        do{
+        do{ 
+            /**
+             * Sorting staff list number with 3 options: 
+             * if choseNum is 1, staff's salary list will be sorted Ascending
+             * if choseNum is 2, staff's salary list will be sorted Descending
+             * if choseNum is 3, staff's salary list will be kept original staff list
+             * if choseNum is 4, will exit feature and back to main menu    
+             */
             if(choseNum == 1){
                 sortStaffSalary(staffs_2,"Asc");
             }else if(choseNum == 2){
@@ -504,12 +680,13 @@ public class HumanResources {
                 staffs_2.addAll(staffs);
             }
 
+            //Show sheet structure
             System.out.println("==================================================================================================");
             System.out.println("|  Ma NV  |           Ten NV           |    Phong ban    |    Chuc vu    |         Luong         |");
             System.out.println("==================================================================================================");
 
             for(int i = 0; i < staffs_2.size(); i++){
-      
+                //if it's data of manager, show manager's data from staff list
                 if(staffs_2.get(i) instanceof Manager){
                     manager = (Manager)staffs_2.get(i);
 
@@ -518,7 +695,9 @@ public class HumanResources {
                     System.out.print(fillSpace(1) + manager.getDepartment() + fillSpace(17 -1 - manager.getDepartment().length()) + "|");
                     System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
                     System.out.print(fillSpace(1) + (int)manager.getSalary() + fillSpace(16 - Integer.toString((int)manager.getSalary()).length()) + "vnd   |\n");
-                }else if(staffs_2.get(i) instanceof Employee){
+                }
+                //if it's data of employee, show employee's data from staff list
+                else if(staffs_2.get(i) instanceof Employee){
                     employee = (Employee)staffs_2.get(i);
 
                     System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
@@ -530,7 +709,8 @@ public class HumanResources {
             }
 
             System.out.println("==================================================================================================");
-        
+            
+            //Require input choosing number with with 4 options, if it different from range, require input again
             do{
                 System.out.print("Nhap: Luong tang dan = 1, Luong giam dan = 2, Bang luong goc = 3, Quay ve Menu chinh = 0? ");
                 choseNum = input.nextByte();
@@ -544,12 +724,20 @@ public class HumanResources {
         }while(runShow);
     }
 
+    /**
+     * The method sortStaffSalary() implement showing sorting staff's salary list
+     * @param input             use object Scanner to get user's input
+     * @param sortRule          if it is "Asc", sort staff's salary by ascending, if it is "Desc" sort staff's salary by descending
+     */
     public static void sortStaffSalary(ArrayList<Staff> staffs, String sortRule){
         Staff staff_temp = null;
         double staffSalary_1 = 0.0, staffSalary_2 = 0.0;
 
         for(int i = 0; i < staffs.size() - 1; i++){
+
             for(int j = i + 1; j < staffs.size(); j++){
+                //if it's data of manager, get manager's salary from staff list
+                //if it's data of employee, get employee's salary from staff list
                 if(staffs.get(i) instanceof Manager){
                     staffSalary_1 = ((Manager)staffs.get(i)).getSalary();
                 }else if(staffs.get(i) instanceof Employee){
@@ -562,6 +750,7 @@ public class HumanResources {
                     staffSalary_2 = ((Employee)staffs.get(j)).getSalary();
                 }
 
+                //sort staff's salary by ascending
                 if(sortRule.equals("Desc")){
                     if(staffSalary_1 < staffSalary_2){
                         staff_temp = staffs.get(i);
@@ -570,7 +759,9 @@ public class HumanResources {
                         staffs.set(j, null);
                         staffs.set(j, staff_temp);
                     }
-                }else if(sortRule.equals("Asc")){
+                }
+                //sort staff's salary by descending
+                else if(sortRule.equals("Asc")){
                     if(staffSalary_1 > staffSalary_2){
                         staff_temp = staffs.get(i);
                         staffs.set(i, null);
@@ -584,16 +775,26 @@ public class HumanResources {
         }
     }
 
+    /**
+     * The method showSearchStaff() implement showing searching a staff in staff list by name or staff id
+     * @param input             use object Scanner to get user's input
+     * @param staffs            is staffs list
+     */
     public static void showSearchStaff(Scanner input, ArrayList<Staff> staffs){
         Employee employee;
         Manager manager;
         boolean runShow = true;
         byte choseNum = 1;
         String keyword = "";
+
+        //Declare a searchedStaff to store search result
         ArrayList<Staff> searchedStaff = new ArrayList<>();
  
         do{
+            //Clear searchedStaff
             searchedStaff.clear();
+
+            //Require input search keyword (staff id or name) and store search result to searchedStaff
             System.out.print("Nhap ma nhan vien hoac ten nhan vien can tim? ");
             keyword = input.next();
             for(Staff staff : staffs){
@@ -604,14 +805,15 @@ public class HumanResources {
                 }
             }
             
+            //if searchedStaff is not empty, show result. 
             if(!searchedStaff.isEmpty()){
-
+                //Show sheet structure
                 System.out.println("=================================================================================================================");
                 System.out.println("|  Ma NV  |           Ten NV           |    Phong ban    |    Chuc vu    |       Chuc danh       |    Ngay vao  |");
                 System.out.println("=================================================================================================================");
 
                 for(int i = 0; i < searchedStaff.size(); i++){
-                    
+                    //if it's data of manager, show manager's data from searchedStaff
                     if(searchedStaff.get(i) instanceof Manager){
                         manager = (Manager)searchedStaff.get(i);
                             
@@ -622,7 +824,9 @@ public class HumanResources {
                         System.out.print(fillSpace(1) + manager.getPositionManager() + fillSpace(23 - 1 - manager.getPositionManager().length()) + "|");
                         System.out.print(fillSpace(1) + manager.getStartDate() + fillSpace(13 - manager.getStartDate().length()) + "|\n"); 
 
-                    }else if(searchedStaff.get(i) instanceof Employee){
+                    }
+                    //if it's data of employee, show employee's data from searchedStaff
+                    else if(searchedStaff.get(i) instanceof Employee){
                         employee = (Employee)searchedStaff.get(i);
                             
                         System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
@@ -637,11 +841,13 @@ public class HumanResources {
                 System.out.println("=================================================================================================================");
                 
             }else{
+                //if searchedStaff is empty, inform "not found". 
                 System.out.println("??????????????????????????????");
                 System.out.println("??? Khong tim thay ket qua ???");
                 System.out.println("??????????????????????????????");
             }
-
+            
+            //Ask user for continue finding or backing to main menu
             do{
                 System.out.print("Nhap: Tiep tuc tim = 1, Quay ve Menu chinh = 0? ");
                 choseNum = input.nextByte();
@@ -656,6 +862,12 @@ public class HumanResources {
 
     }
 
+    /**
+     * The method removeStaffByStaffId() implement removing a staff by inputing staff's id
+     * @param input             use object Scanner to get user's input
+     * @param staffs            is staffs list
+     * @param departments       is department list
+     */
     public static void removeStaffByStaffId(Scanner input, ArrayList<Staff> staffs, Department departments[]){
 
         Employee employee;
@@ -669,17 +881,26 @@ public class HumanResources {
         int deleteIndex = 0;
  
         do{
+            //clear searchedStaff
             searchedStaff = null;
+
+            //Require input staff's id want to remove
             System.out.print("Nhap ma nhan vien muon xoa? ");
             keyword = input.next();
+
+            //Search inputted staff's id in staff list
             for(int i = 0; i < staffs.size(); i++){
                 if(staffs.get(i).getStaffId().equals(keyword)){
+                    //Store searched result in searchedStaff
                     searchedStaff = staffs.get(i);
+
+                    //get index where want to remove in staff list
                     deleteIndex = i;
                     break;
                 }
             }
             
+            //if searchedStaff is not empty, show result
             if(searchedStaff != null){
 
                 System.out.println("=================================================================================================================");
@@ -709,11 +930,15 @@ public class HumanResources {
                 
                 System.out.println("=================================================================================================================");
                 
+                //More one time, confirm removing or not
                 do{
                     System.out.print("Ban chac chan muon xoa, nhap: Xoa = 1, Khong Xoa = 0? ");
                     isDelete = input.nextByte();
                     if(isDelete == 1){
+                        //remove staff by
                         staffs.remove(deleteIndex);
+
+                        //update department's number of staff after remove a staff
                         updateDepartmentList(staffs, departments);
                         System.out.println("Xoa thanh cong!\n");
                     }else if(isDelete == 0){
@@ -722,11 +947,13 @@ public class HumanResources {
                 }while(isDelete < 0 || isDelete > 1);
 
             }else{
+                //if searchedStaff is empty, inform "not found"
                 System.out.println("??????????????????????????????");
                 System.out.println("??? Khong tim thay ket qua ???");
                 System.out.println("??????????????????????????????");
             }
 
+            //Ask user for continue removing or backing to main menu
             do{
                 System.out.print("Nhap: Tiep tuc tim = 1, Quay ve Menu chinh = 0? ");
                 choseNum = input.nextByte();

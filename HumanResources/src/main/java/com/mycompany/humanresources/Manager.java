@@ -31,10 +31,20 @@ public class Manager extends Staff implements ICalculator{
         return positionManager;
     }
     
+    /**
+	 * {@interface}
+	 * This inserts the docs from the ICalculator Interface.
+	 * Implement staff's salary calculation.
+	 */
     public void setPositionManager(String positionManager){
         this.positionManager =  positionManager;
     }
     
+    /**
+	 * {@interface}
+	 * This inserts the docs from the ICalculator Interface.
+	 * Implement staff's salary calculation.
+	 */
     @Override
     public double calculateSalary() {
         double bonus = 0;
