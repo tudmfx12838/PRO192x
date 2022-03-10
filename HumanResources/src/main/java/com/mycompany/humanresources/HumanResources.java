@@ -21,7 +21,7 @@ public class HumanResources {
         //  Business Leader = 1, Project Leader = 2, Technical Leader = 3? 
         staffs.add(new Manager("001", "Nguyen Van A", 45, 3.5, "01/01/2000", "Finance", 20, "Business Leader" ));
         staffs.add(new Employee("002", "Nguyen Van B", 30, 2.1, "01/01/2005", "Finance", 15, 20 ));
-        staffs.add(new Manager("003", "Nguyen Van C", 50, 4.1, "01/01/2000", "Sale", 20, "Business Leader" ));
+        staffs.add(new Manager("003", "Nguyen Van Cuong", 50, 4.1, "01/01/2000", "Sale", 20, "Business Leader" ));
         staffs.add(new Employee("004", "Nguyen Van D", 20, 1.1, "01/01/2019", "Sale", 15, 21 ));
         staffs.add(new Manager("005", "Nguyen Van F", 35, 3.1, "01/01/2006", "Marketing", 20, "Project Leader" ));
         staffs.add(new Employee("006", "Nguyen Van G", 20, 2.1, "01/01/2018", "Marketing", 15, 22 ));
@@ -30,7 +30,7 @@ public class HumanResources {
         staffs.add(new Employee("010", "Nguyen Van K", 32, 3.1, "01/01/2010", "IT", 15, 17 ));
         staffs.add(new Manager("011", "Nguyen Van L", 36, 3.1, "01/01/2009", "IT", 20, "Technical Leader" ));
         staffs.add(new Employee("012", "Nguyen Van M", 25, 2.1, "01/01/2021", "IT", 15, 16 ));
-        staffs.add(new Employee("022", "Tran Trung C", 26, 2.2, "01/11/2021", "IT", 14, 15 ));
+        staffs.add(new Employee("022", "Tran Trung cUoNg", 26, 2.2, "01/11/2021", "IT", 14, 15 ));
     }
 
     /**
@@ -801,7 +801,7 @@ public class HumanResources {
                 if(staff.getStaffId().equals(keyword)){
                     searchedStaff.add(staff);
                 }else{
-                    String upperCaseKeyWord = staff.getName();
+                    String upperCaseKeyWord = staff.getName().toUpperCase();
                     if(upperCaseKeyWord.endsWith(keyword.toUpperCase())){
                         searchedStaff.add(staff);
                     }
