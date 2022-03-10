@@ -800,8 +800,11 @@ public class HumanResources {
             for(Staff staff : staffs){
                 if(staff.getStaffId().equals(keyword)){
                     searchedStaff.add(staff);
-                }else if(staff.getName().endsWith(keyword)){
-                    searchedStaff.add(staff);
+                }else{
+                    String upperCaseKeyWord = staff.getName();
+                    if(upperCaseKeyWord.endsWith(keyword.toUpperCase())){
+                        searchedStaff.add(staff);
+                    }
                 }
             }
             

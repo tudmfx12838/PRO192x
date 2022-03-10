@@ -8,6 +8,12 @@ package com.mycompany.humanresources;
  *
  * @author Dang Minh Tu
  */
+
+/**
+ * ICalculator is a interface consist of:
+ * @Variable    constant manager's salary and constant employee's salary
+ * @Method      abstract method calculateSalary specify to calculate staff's salary
+ */
 public interface ICalculator {
     public static final int EMPLOYEE_SALARY = 3000000;
     public static final int OVERTIME_SALARY = 200000;

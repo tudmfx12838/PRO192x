@@ -8,13 +8,30 @@ package com.mycompany.humanresources;
  *
  * @author Dang Minh Tu
  */
+
+ /**
+ * The Employee is employee's documentation
+ * @inheritance from abstract class Staff
+ * @implements  from interface ICalculator
+ */
 public class Employee extends Staff implements ICalculator {
 
     private int overTime;
     private double salary;
 
-    public Employee(){}
+    // public Employee(){}
 
+    /**
+    * Constructor initialize manager's data
+    * @param staffId            is staff's id
+    * @param name               is staff's name
+    * @param age                is staff's age
+    * @param salaryScale        is staff's salaryScale
+    * @param startDate          is staff's start date
+    * @param department         is staff's department
+    * @param annualLeave        is staff's annual leave
+    * @param overTime           is staff's over working time
+    */
     public Employee(String staffId, String name, int age,
             double salaryScale, String startDate, String department,
             int annualLeave, int overTime) {
@@ -31,23 +48,34 @@ public class Employee extends Staff implements ICalculator {
         this.salary = calculateSalary();
     }
     
+    /**
+     * Method setOverTime()
+     * @param overTime   is staff's over working time
+     * Inplement setting a over working time to staff's over working time
+     */
     public void setOverTime(int overTime){
         this.overTime = overTime;
     }
     
+    /**
+     * Method getOverTime()
+     * @return staff's over working time
+     */
     public int getOverTime(){
         return overTime;
     }
 
-    
+    /**
+     * Method getSalary()
+     * @return staff's salary
+     */
     public double getSalary() {
         return salary;
     }
 
     /**
-	 * {@interface}
-	 * This inserts the docs from the ICalculator Interface.
-	 * Implement staff's salary calculation.
+	 * Method calculateSalary() will calculate employee's salary
+     * @return employee's salary
 	 */
     @Override
     public double calculateSalary() {
@@ -55,9 +83,7 @@ public class Employee extends Staff implements ICalculator {
     }
 
     /**
-	 * {@inheritDoc}
-	 * This inserts the docs from the overridden method above.
-	 * Implementation-specific docuementation can then be added here.
+	 * Method displayInformation() will show manager's information
 	 */
     @Override
     public void displayInformation() {
