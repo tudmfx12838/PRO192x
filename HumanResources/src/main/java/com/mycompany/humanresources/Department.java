@@ -85,7 +85,21 @@ public class Department {
      * @return department's information consist of id, name and number of staff
      */
     public String toString(){
-        return "Department Id: " + departmentId + ", Department name: "
-                + departmentName + ", Number of staff: " + NumOfStaff;
+        String departmentInfo = "|" + fillSpace(2) + this.getDepartmentId() + fillSpace(8) + "|" +
+                    fillSpace(2) + this.getDepartmentName() + fillSpace(20 - 1 - this.getDepartmentName().length()) + "|"+
+                    fillSpace(2) + this.getNumOfStaff() + fillSpace(19 - Integer.toString(this.getNumOfStaff()).length()) + "|";
+        return departmentInfo;
+    }
+    
+    /**
+     * The method fillSpace() implement fill space into a string
+     * @param sizeSpace       is number of space that want to fill
+     */
+    public String fillSpace(int sizeSpace){
+        String space = "";
+        for(int i = 0; i < sizeSpace; i++){
+            space += " ";
+        }
+        return space;
     }
 }

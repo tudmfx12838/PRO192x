@@ -25,7 +25,7 @@ public abstract class Staff {
     /**
      * An abstract method as displayInformation() sepcify showing staff's information
      */
-    public abstract void displayInformation();
+    public abstract void displayInformation(int option);
 
     /**
      * Method getStaffId()

@@ -86,16 +86,52 @@ public class Employee extends Staff implements ICalculator {
 	 * Method displayInformation() will show manager's information
 	 */
     @Override
-    public void displayInformation() {
-        System.out.println("Ma so NV:      " + staffId);
-        System.out.println("Ten:           " + name);
-        System.out.println("Tuoi:          " + age);
-        System.out.println("He so luong:   " + salaryScale);
-        System.out.println("Ngay bat dau:  " + startDate);
-        System.out.println("Bo phan:       " + department);
-        System.out.println("Ngay phep:     " + annualLeave);
-        System.out.println("Chuc vu:       " + position);
-        System.out.println("Gio lam them:  " + overTime);
-        System.out.println();
+    public void displayInformation(int option) {
+
+        //Option as 1 to show all of staff's informantion
+        if(option == 1){
+
+            System.out.print("|" + fillSpace(3) + this.getStaffId() + fillSpace(3) + "|");
+            System.out.print(fillSpace(1) + this.getName() + fillSpace(24 - 1 - this.getName().length()) + "|");
+            System.out.print(fillSpace(1) + this.getAge() + fillSpace(6 - 1 - Integer.toString(this.getAge()).length()) + "|");
+            System.out.print(fillSpace(1) + this.getSalaryScale() + fillSpace(13 - 1 - Double.toString(this.getSalaryScale()).length()) + "|");
+            System.out.print(fillSpace(1) + this.getAnnualLeave() + fillSpace(11 - 1 - Integer.toString(this.getAnnualLeave()).length()) + "|");
+            System.out.print(fillSpace(1) + this.getDepartment() + fillSpace(13 -1 - this.getDepartment().length()) + "|");
+            System.out.print(fillSpace(1) + this.getPosition() + fillSpace(11 - 1 - this.getPosition().length()) + "|");
+            System.out.print(fillSpace(19) + "|");
+            System.out.print(fillSpace(1) + this.getOverTime() + fillSpace(16 - 1 - Integer.toString(this.getOverTime()).length()) + "|");
+            System.out.print(fillSpace(1) + this.getStartDate() + fillSpace(11 - this.getStartDate().length()) + "|\n"); 
+        }
+        //Option as 2 to show sort staff's informantion
+        else if(option == 2){
+
+            System.out.print("|" + fillSpace(3) + this.getStaffId() + fillSpace(3) + "|");
+            System.out.print(fillSpace(1) + this.getName() + fillSpace(28 - 1 - this.getName().length()) + "|");
+            System.out.print(fillSpace(1) + this.getDepartment() + fillSpace(17 -1 - this.getDepartment().length()) + "|");
+            System.out.print(fillSpace(1) + this.getPosition() + fillSpace(15 - 1 - this.getPosition().length()) + "|");
+            System.out.print(fillSpace(23) + "|"); 
+            System.out.print(fillSpace(1) + this.getStartDate() + fillSpace(13 - this.getStartDate().length()) + "|\n"); 
+        }
+        //Option as 3 to show sort staff's informantion and staff's salary
+        else if(option == 3){
+
+            System.out.print("|" + fillSpace(3) + this.getStaffId() + fillSpace(3) + "|");
+            System.out.print(fillSpace(1) + this.getName() + fillSpace(28 - 1 - this.getName().length()) + "|");
+            System.out.print(fillSpace(1) + this.getDepartment() + fillSpace(17 -1 - this.getDepartment().length()) + "|");
+            System.out.print(fillSpace(1) + this.getPosition() + fillSpace(15 - 1 - this.getPosition().length()) + "|");
+            System.out.print(fillSpace(1) + (int)this.getSalary() + fillSpace(16 - Integer.toString((int)this.getSalary()).length()) + "vnd   |\n");
+        }
+    }
+
+    /**
+     * The method fillSpace() implement fill space into a string
+     * @param sizeSpace       is number of space that want to fill
+     */
+    public String fillSpace(int sizeSpace){
+        String space = "";
+        for(int i = 0; i < sizeSpace; i++){
+            space += " ";
+        }
+        return space;
     }
 }

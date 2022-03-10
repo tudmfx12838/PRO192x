@@ -379,13 +379,32 @@ public class HumanResources {
                 staffs.add(new Manager(staffId, name, age, salaryScale, startDate, department, annualLeave, positionManager));
                 System.out.println("Them nhan vien thanh cong");
                 manager = (Manager)staffs.get(staffs.size() - 1);
-                manager.displayInformation();
+
+                //Show sheet structure
+                System.out.println("=================================================================================================================================================");
+                System.out.println("|  Ma NV  |         Ten NV         | Tuoi | He so luong | Ngay phep |  Phong ban  |  Chuc vu  |     Chuc danh     |  Gio lam them  |  Ngay vao  |");
+                System.out.println("=================================================================================================================================================");
+
+                 //Call method displayInformation() with option as 1 to show all employee's informantion
+                manager.displayInformation(1);
+
+                System.out.println("=================================================================================================================================================");
             }else if(staffPosition == 2){
                 // System.out.format("%s  %s  %d  %f  %s  %s  %d  %d", staffId, name, age, salaryScale, startDate, department, annualLeave, overTime);
                 staffs.add(new Employee(staffId, name, age, salaryScale, startDate, department, annualLeave, overTime));
                 System.out.println("Them nhan vien thanh cong");
                 employee = (Employee)staffs.get(staffs.size() - 1);
-                employee.displayInformation();
+
+                //Show sheet structure
+                System.out.println("=================================================================================================================================================");
+                System.out.println("|  Ma NV  |         Ten NV         | Tuoi | He so luong | Ngay phep |  Phong ban  |  Chuc vu  |     Chuc danh     |  Gio lam them  |  Ngay vao  |");
+                System.out.println("=================================================================================================================================================");
+
+                 //Call method displayInformation() with option as 1 to show all employee's informantion
+                employee.displayInformation(1);
+
+                System.out.println("=================================================================================================================================================");
+
             }
 
             //Ask user for continue inputing or back to main menu
@@ -424,26 +443,19 @@ public class HumanResources {
             for(int i = 0; i < staffs.size(); i++){
                 //if it's data of manager, show manager's data from staff list
                 if(staffs.get(i) instanceof Manager){
+                    //Down casting
                     manager = (Manager)staffs.get(i);
-                        
-                    System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
-                    System.out.print(fillSpace(1) + manager.getName() + fillSpace(28 - 1 - manager.getName().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getDepartment() + fillSpace(17 -1 - manager.getDepartment().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getPositionManager() + fillSpace(23 - 1 - manager.getPositionManager().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getStartDate() + fillSpace(13 - manager.getStartDate().length()) + "|\n"); 
-
+                    
+                    //Call method displayInformation() to show manager's information
+                    manager.displayInformation(2);
                 }
                 //if it's data of employee, show employee's data from staff list
                 else if(staffs.get(i) instanceof Employee){
+                    //Down casting
                     employee = (Employee)staffs.get(i);
-                        
-                    System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
-                    System.out.print(fillSpace(1) + employee.getName() + fillSpace(28 - 1 - employee.getName().length()) + "|");
-                    System.out.print(fillSpace(1) + employee.getDepartment() + fillSpace(17 -1 - employee.getDepartment().length()) + "|");
-                    System.out.print(fillSpace(1) + employee.getPosition() + fillSpace(15 - 1 - employee.getPosition().length()) + "|");
-                    System.out.print(fillSpace(23) + "|"); 
-                    System.out.print(fillSpace(1) + employee.getStartDate() + fillSpace(13 - employee.getStartDate().length()) + "|\n"); 
+                    
+                    //Call method displayInformation() to show employee's information
+                    employee.displayInformation(2);
                 }
             }
             System.out.println("=================================================================================================================");
@@ -488,10 +500,8 @@ public class HumanResources {
 
             //Show each department's infomation from deparment's list
             for(int i = 0; i < departments.length; i++){
-                
-                System.out.print("|" + fillSpace(2) + departments[i].getDepartmentId() + fillSpace(8) + "|");
-                System.out.print(fillSpace(2) + departments[i].getDepartmentName() + fillSpace(20 - 1 - departments[i].getDepartmentName().length()) + "|");
-                System.out.print(fillSpace(2) + departments[i].getNumOfStaff() + fillSpace(19 - Integer.toString(departments[i].getNumOfStaff()).length()) + "|\n");
+                //Call toString() to get department's information
+                System.out.println(departments[i].toString());
             }
 
             System.out.println("============================================================");
@@ -508,7 +518,7 @@ public class HumanResources {
     }
 
     /**
-     * The method showDepartmentStaffList() implement showing staff of department from staffs list by inputing department's name
+     * The method showDepartmentStaffList() implement showing staff of department from staffs list by choosing department's name
      * @param input             use object Scanner to get user's input
      * @param staffs            is staff list
      */
@@ -547,15 +557,11 @@ public class HumanResources {
             for(int i = 0; i < staffs.size(); i++){
                 
                 if((staffs.get(i) instanceof Manager)&&staffs.get(i).department.equals(choseDepartment)){
+                    //Down casting
                     manager = (Manager)staffs.get(i);
-                        
-                    System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
-                    System.out.print(fillSpace(1) + manager.getName() + fillSpace(28 - 1 - manager.getName().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getDepartment() + fillSpace(17 -1 - manager.getDepartment().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getPositionManager() + fillSpace(23 - 1 - manager.getPositionManager().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getStartDate() + fillSpace(13 - manager.getStartDate().length()) + "|\n"); 
-
+                    
+                    //Call method displayInformation() to show manager's information
+                    manager.displayInformation(2);
                 }
             }
 
@@ -563,14 +569,11 @@ public class HumanResources {
             for(int i = 0; i < staffs.size(); i++){
 
                 if((staffs.get(i) instanceof Employee)&&staffs.get(i).department.equals(choseDepartment)){
+                    //Down casting
                     employee = (Employee)staffs.get(i);
-                        
-                    System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
-                    System.out.print(fillSpace(1) + employee.getName() + fillSpace(28 - 1 - employee.getName().length()) + "|");
-                    System.out.print(fillSpace(1) + employee.getDepartment() + fillSpace(17 -1 - employee.getDepartment().length()) + "|");
-                    System.out.print(fillSpace(1) + employee.getPosition() + fillSpace(15 - 1 - employee.getPosition().length()) + "|");
-                    System.out.print(fillSpace(23) + "|"); 
-                    System.out.print(fillSpace(1) + employee.getStartDate() + fillSpace(13 - employee.getStartDate().length()) + "|\n"); 
+                    
+                    //Call method displayInformation() to show employee's information
+                    employee.displayInformation(2);
                 }
             }
 
@@ -612,23 +615,16 @@ public class HumanResources {
                 //if it's data of manager, show manager's data from staff list
                 if(staffs.get(i) instanceof Manager){
                     manager = (Manager)staffs.get(i);
-                        
-                    System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
-                    System.out.print(fillSpace(1) + manager.getName() + fillSpace(28 - 1 - manager.getName().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getDepartment() + fillSpace(17 -1 - manager.getDepartment().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
-                    System.out.print(fillSpace(1) + (int)manager.getSalary() + fillSpace(16 - Integer.toString((int)manager.getSalary()).length()) + "vnd   |\n"); 
-
+                    
+                    //Call method displayInformation() with ption as 3 to show sort manager's informantion and staff's salary
+                    manager.displayInformation(3);
                 }
                 //if it's data of employee, show employee's data from staff list
                 else if(staffs.get(i) instanceof Employee){
                     employee = (Employee)staffs.get(i);
-                        
-                    System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
-                    System.out.print(fillSpace(1) + employee.getName() + fillSpace(28 - 1 - employee.getName().length()) + "|");
-                    System.out.print(fillSpace(1) + employee.getDepartment() + fillSpace(17 -1 - employee.getDepartment().length()) + "|");
-                    System.out.print(fillSpace(1) + employee.getPosition() + fillSpace(15 - 1 - employee.getPosition().length()) + "|");
-                    System.out.print(fillSpace(1) + (int)employee.getSalary() + fillSpace(16 - Integer.toString((int)employee.getSalary()).length()) + "vnd   |\n"); 
+                    
+                    //Call method displayInformation() with ption as 3 to show sort employee's informantion and staff's salary
+                    employee.displayInformation(3); 
                 }
             }
 
@@ -690,21 +686,15 @@ public class HumanResources {
                 if(staffs_2.get(i) instanceof Manager){
                     manager = (Manager)staffs_2.get(i);
 
-                    System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
-                    System.out.print(fillSpace(1) + manager.getName() + fillSpace(28 - 1 - manager.getName().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getDepartment() + fillSpace(17 -1 - manager.getDepartment().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
-                    System.out.print(fillSpace(1) + (int)manager.getSalary() + fillSpace(16 - Integer.toString((int)manager.getSalary()).length()) + "vnd   |\n");
+                    //Call method displayInformation() with ption as 3 to show sort manager's informantion and staff's salary
+                    manager.displayInformation(3);
                 }
                 //if it's data of employee, show employee's data from staff list
                 else if(staffs_2.get(i) instanceof Employee){
                     employee = (Employee)staffs_2.get(i);
 
-                    System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
-                    System.out.print(fillSpace(1) + employee.getName() + fillSpace(28 - 1 - employee.getName().length()) + "|");
-                    System.out.print(fillSpace(1) + employee.getDepartment() + fillSpace(17 -1 - employee.getDepartment().length()) + "|");
-                    System.out.print(fillSpace(1) + employee.getPosition() + fillSpace(15 - 1 - employee.getPosition().length()) + "|");
-                    System.out.print(fillSpace(1) + (int)employee.getSalary() + fillSpace(16 - Integer.toString((int)employee.getSalary()).length()) + "vnd   |\n"); 
+                    //Call method displayInformation() with ption as 3 to show sort employee's informantion and staff's salary
+                    employee.displayInformation(3);
                 } 
             }
 
@@ -811,38 +801,30 @@ public class HumanResources {
             //if searchedStaff is not empty, show result. 
             if(!searchedStaff.isEmpty()){
                 //Show sheet structure
-                System.out.println("=================================================================================================================");
-                System.out.println("|  Ma NV  |           Ten NV           |    Phong ban    |    Chuc vu    |       Chuc danh       |    Ngay vao  |");
-                System.out.println("=================================================================================================================");
+                //Show sheet structure
+                System.out.println("=================================================================================================================================================");
+                System.out.println("|  Ma NV  |         Ten NV         | Tuoi | He so luong | Ngay phep |  Phong ban  |  Chuc vu  |     Chuc danh     |  Gio lam them  |  Ngay vao  |");
+                System.out.println("=================================================================================================================================================");
 
                 for(int i = 0; i < searchedStaff.size(); i++){
                     //if it's data of manager, show manager's data from searchedStaff
                     if(searchedStaff.get(i) instanceof Manager){
                         manager = (Manager)searchedStaff.get(i);
-                            
-                        System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
-                        System.out.print(fillSpace(1) + manager.getName() + fillSpace(28 - 1 - manager.getName().length()) + "|");
-                        System.out.print(fillSpace(1) + manager.getDepartment() + fillSpace(17 -1 - manager.getDepartment().length()) + "|");
-                        System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
-                        System.out.print(fillSpace(1) + manager.getPositionManager() + fillSpace(23 - 1 - manager.getPositionManager().length()) + "|");
-                        System.out.print(fillSpace(1) + manager.getStartDate() + fillSpace(13 - manager.getStartDate().length()) + "|\n"); 
-
+                        
+                        //Call method displayInformation() with option as 1 to show all manager's informantion
+                        manager.displayInformation(1);
                     }
                     //if it's data of employee, show employee's data from searchedStaff
                     else if(searchedStaff.get(i) instanceof Employee){
                         employee = (Employee)searchedStaff.get(i);
-                            
-                        System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
-                        System.out.print(fillSpace(1) + employee.getName() + fillSpace(28 - 1 - employee.getName().length()) + "|");
-                        System.out.print(fillSpace(1) + employee.getDepartment() + fillSpace(17 -1 - employee.getDepartment().length()) + "|");
-                        System.out.print(fillSpace(1) + employee.getPosition() + fillSpace(15 - 1 - employee.getPosition().length()) + "|");
-                        System.out.print(fillSpace(23) + "|"); 
-                        System.out.print(fillSpace(1) + employee.getStartDate() + fillSpace(13 - employee.getStartDate().length()) + "|\n"); 
+                        
+                        //Call method displayInformation() with option as 1 to show all employee's informantion
+                        employee.displayInformation(1);
                     }
                 }
 
-                System.out.println("=================================================================================================================");
-                
+                System.out.println("=================================================================================================================================================");
+
             }else{
                 //if searchedStaff is empty, inform "not found". 
                 System.out.println("??????????????????????????????");
@@ -906,33 +888,25 @@ public class HumanResources {
             //if searchedStaff is not empty, show result
             if(searchedStaff != null){
 
-                System.out.println("=================================================================================================================");
-                System.out.println("|  Ma NV  |           Ten NV           |    Phong ban    |    Chuc vu    |       Chuc danh       |    Ngay vao  |");
-                System.out.println("=================================================================================================================");
+                System.out.println("=================================================================================================================================================");
+                System.out.println("|  Ma NV  |         Ten NV         | Tuoi | He so luong | Ngay phep |  Phong ban  |  Chuc vu  |     Chuc danh     |  Gio lam them  |  Ngay vao  |");
+                System.out.println("=================================================================================================================================================");
 
                 if(searchedStaff instanceof Manager){
                     manager = (Manager)searchedStaff;
-                        
-                    System.out.print("|" + fillSpace(3) + manager.getStaffId() + fillSpace(3) + "|");
-                    System.out.print(fillSpace(1) + manager.getName() + fillSpace(28 - 1 - manager.getName().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getDepartment() + fillSpace(17 -1 - manager.getDepartment().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getPosition() + fillSpace(15 - 1 - manager.getPosition().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getPositionManager() + fillSpace(23 - 1 - manager.getPositionManager().length()) + "|");
-                    System.out.print(fillSpace(1) + manager.getStartDate() + fillSpace(13 - manager.getStartDate().length()) + "|\n"); 
+                    
+                    //Call method displayInformation() with option as 1 to show all manager's informantion
+                    manager.displayInformation(1);
 
                 }else if(searchedStaff instanceof Employee){
                     employee = (Employee)searchedStaff;
-                        
-                    System.out.print("|" + fillSpace(3) + employee.getStaffId() + fillSpace(3) + "|");
-                    System.out.print(fillSpace(1) + employee.getName() + fillSpace(28 - 1 - employee.getName().length()) + "|");
-                    System.out.print(fillSpace(1) + employee.getDepartment() + fillSpace(17 -1 - employee.getDepartment().length()) + "|");
-                    System.out.print(fillSpace(1) + employee.getPosition() + fillSpace(15 - 1 - employee.getPosition().length()) + "|");
-                    System.out.print(fillSpace(23) + "|"); 
-                    System.out.print(fillSpace(1) + employee.getStartDate() + fillSpace(13 - employee.getStartDate().length()) + "|\n"); 
+                    
+                    //Call method displayInformation() with option as 1 to show all employee's informantion
+                    employee.displayInformation(1);
                 }
                 
-                System.out.println("=================================================================================================================");
-                
+                System.out.println("=================================================================================================================================================");
+
                 //More one time, confirm removing or not
                 do{
                     System.out.print("Ban chac chan muon xoa, nhap: Xoa = 1, Khong Xoa = 0? ");
